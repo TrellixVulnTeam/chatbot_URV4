@@ -1,11 +1,10 @@
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { WebsocketService } from './websocket.service';
 import { map } from "rxjs/operators";
 
 export class MessagePayload {
 	msg: string;
-	room: string = "ai_team_7"
 	name: string = "user"
 }
 
@@ -20,22 +19,15 @@ export class ChatService {
 			.pipe(map((response: any): any => {
 				return response;
 			}))
+
+		this.messages.subscribe(msg => {
+			this.responses.next(msg['msg'])
+		})
 	}
 
-	public submit(question: string): void {
-		const length = question.length;
-		const answer = `"${question}" contains exactly ${length} symbols.`;
-
-		this.sendMsg(question)
-		setTimeout(
-			() => this.responses.next(answer),
-			1000
-		);
-	}
-
-	public sendMsg(msg) {
+	public submit(text: string): void {
 		var message: MessagePayload = new MessagePayload();
-		message.msg = msg
+		message.msg = text;
 		this.messages.next(message);
 	}
 }

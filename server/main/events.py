@@ -18,15 +18,15 @@ def text(message):
     if (isinstance(message, str)):
         message = json.loads(message)
     
-    room = session.get('room')
-    if room is None:
-        room = message['room']
-
     name = session.get('name')
     if name is None:
         name = message['name']
 
-    emit('message', {'msg': name + ':' + message['msg']}, room=room)
+    room = session.get('room')
+    if room is not None:
+        emit('message', {'msg': name + ':' + message['msg']}, room=room)
+    else:
+        emit('message', {'msg': name + ':' + message['msg']}, broadcast=True)
 
 
 @socketio.on('left', namespace='/chat')
