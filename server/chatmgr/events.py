@@ -2,7 +2,9 @@ from flask import session
 from flask_socketio import emit, join_room, leave_room
 from .. import socketio
 import json
+from server.botmgr.query import QueryHandler
 
+handler: QueryHandler = QueryHandler()
 
 @socketio.on('joined', namespace='/chat')
 def joined(message):
@@ -27,6 +29,8 @@ def text(message):
         emit('message', {'msg': name + ':' + message['msg']}, room=room)
     else:
         emit('message', {'msg': name + ':' + message['msg']}, broadcast=True)
+    
+    handler.handle_query(message['msg'])
 
 
 @socketio.on('left', namespace='/chat')

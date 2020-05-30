@@ -10,8 +10,10 @@ def create_app(debug=False):
     app.debug = debug
     app.config['SECRET_KEY'] = 'gjr39dkjn344_!67#'
 
-    from .main import main as main_blueprint
+    from .chatmgr import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    from .botmgr import query
 
     socketio.init_app(app, cors_allowed_origins='*')
     return app
