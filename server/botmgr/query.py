@@ -3,7 +3,7 @@ import os
 from .. import socketio
 from flask_socketio import emit
 from .open_ai.conv_ai import ConversationalAiModel
-from .dflow import DialogFlowHandler
+from .dflow import DialogFlowHandler, DialogFlowResults
 from server.common import Singleton
 
 @Singleton
@@ -19,8 +19,10 @@ class QueryHandler():
             self.conv_ai = ConversationalAiModel(os.getenv('openai_model'))
 
     def handle_query(self, text: str):
-        response = ""
-        
+        intent: DialogFlowResults = self.dflow.process(text)
+        response = intent.fulfillment_text if intent is not None and intent.fulfillment_text is not '' else 'Sorry, my brain is dead'
+        print(response)
+
         if self.openai_enabled:
             response = self.conv_ai.process(text)
 
