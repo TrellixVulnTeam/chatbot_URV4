@@ -5,9 +5,9 @@ from server import create_app, socketio
 
 for file in [x.strip() for x in os.getenv('CONFIG_ENV', default='').split(',')]:
     load_dotenv(file)
-print(os.environ.values())
+#print(os.environ.values())
 
-logging.basicConfig(level=logging.WARNING)
+logging.basicConfig(level=logging.INFO)
 
 app = create_app(debug=True)
 

@@ -3,14 +3,18 @@ import os
 from .. import socketio
 from flask_socketio import emit
 from .open_ai.conv_ai import ConversationalAiModel
+from .dflow import DialogFlowHandler
+from server.common import Singleton
 
+@Singleton
 class QueryHandler():
 
     handlers: list = []
 
     def __init__(self):
-        self.openai_enabled: bool = os.getenv('openai.enabled') == 'true'
+        self.dflow = DialogFlowHandler()
 
+        self.openai_enabled: bool = os.getenv('openai.enabled') == 'true'
         if self.openai_enabled:
             self.conv_ai = ConversationalAiModel(os.getenv('openai_model'))
 
