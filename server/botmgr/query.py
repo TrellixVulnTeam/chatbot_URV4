@@ -21,7 +21,6 @@ class QueryHandler():
     def handle_query(self, text: str):
         intent: DialogFlowResults = self.dflow.process(text)
         response = intent.fulfillment_text if intent is not None and intent.fulfillment_text is not '' else 'Sorry, my brain is dead'
-        print(response)
 
         if self.openai_enabled:
             response = self.conv_ai.process(text)
