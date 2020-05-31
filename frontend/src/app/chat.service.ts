@@ -21,7 +21,8 @@ export class ChatService {
 			}))
 
 		this.messages.subscribe(msg => {
-			this.responses.next(msg['msg'])
+			if(msg['sender'] != "user")
+				this.responses.next(msg['msg'])
 		})
 	}
 

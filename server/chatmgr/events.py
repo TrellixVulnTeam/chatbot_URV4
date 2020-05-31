@@ -26,9 +26,9 @@ def text(message):
 
     room = session.get('room')
     if room is not None:
-        emit('message', {'msg': name + ':' + message['msg']}, room=room)
+        emit('message', {'msg': name + ':' + message['msg'], 'sender': name}, room=room)
     else:
-        emit('message', {'msg': name + ':' + message['msg']}, broadcast=True)
+        emit('message', {'msg': name + ':' + message['msg'], 'sender': name})
 
     handler.handle_query(message['msg'])
 
