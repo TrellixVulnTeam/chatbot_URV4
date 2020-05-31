@@ -1,7 +1,7 @@
 import dialogflow
 import os
 import uuid
-
+import google.protobuf as pf
 from google.api_core.exceptions import InvalidArgument
 
 DIALOGFLOW_PROJECT_ID = os.getenv('GOOGLE_CLOUD_PROJECT')
@@ -11,8 +11,8 @@ SESSION_ID = str(uuid.uuid4())
 
 
 class DialogFlowResults():
-    def __init__(self, response: dict):
-        self.response: dict = response
+    def __init__(self, response):
+        self.response: dict = pf.json_format.MessageToDict(response)
         self.intent: str = response.query_result.intent.display_name
         self.fulfillment_text = response.query_result.fulfillment_text
         self.is_fallback: bool = response.query_result.intent.is_fallback == 'true'
