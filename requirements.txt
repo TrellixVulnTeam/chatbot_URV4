@@ -17,3 +17,5 @@ WTForms==2.2.1
 torch
 pytorch-ignite
 transformers==2.5.1
+python-dotenv==0.13.0
+dialogflow

@@ -1,4 +1,5 @@
 import logging
+import os
 import random
 from itertools import chain
 import warnings
@@ -7,13 +8,12 @@ import torch
 import torch.nn.functional as F
 
 from transformers import OpenAIGPTLMHeadModel, OpenAIGPTTokenizer
-from server.botmgr.train import SPECIAL_TOKENS, build_input_from_segments, add_special_tokens_
-from server.botmgr.utils import get_dataset
+from .train import SPECIAL_TOKENS, build_input_from_segments, add_special_tokens_
+from .utils import get_dataset
 
 class ConversationalAiModel():
 
     def __init__(self, model_checkpoint: str, seed: int = 0):
-        logging.basicConfig(level=logging.INFO)
         logger = logging.getLogger(__file__)
         
         if seed != 0:
@@ -28,8 +28,8 @@ class ConversationalAiModel():
         self.model.to("cpu")
         add_special_tokens_(self.model, self.tokenizer)
 
-        logger.info("Sample a personality")
-        dataset = get_dataset(self.tokenizer, "", '/home/jsnouffer/git/transfer-learning-conv-ai/dataset_cache')
+        openai_dataset_cache: str = os.getenv('openai_dataset_cache')
+        dataset = get_dataset(self.tokenizer, "", openai_dataset_cache)
         personalities = [dialog["personality"] for dataset in dataset.values() for dialog in dataset]
         self.personality = random.choice(personalities)
         logger.info("Selected personality: %s", self.tokenizer.decode(chain(*self.personality)))

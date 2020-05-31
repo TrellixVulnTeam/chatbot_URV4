@@ -22,7 +22,7 @@ env: ## Creates or updates project's virtual enviornment. To activate, run: sour
 	venv/bin/pip install -r requirements.txt
 
 run: ## Run chat.py
-	venv/bin/python chat.py
+	CONFIG_ENV=config.env,deploy.env venv/bin/python chat.py
 
 docker-build: ## Build docker image
 	docker build -t $(app_name) .

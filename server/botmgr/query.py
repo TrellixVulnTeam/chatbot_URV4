@@ -1,12 +1,23 @@
+import os
+
 from .. import socketio
 from flask_socketio import emit
-from server.botmgr.conv_ai import ConversationalAiModel
+from .open_ai.conv_ai import ConversationalAiModel
 
 class QueryHandler():
 
+    handlers: list = []
+
     def __init__(self):
-        self.conv_ai = ConversationalAiModel('/home/jsnouffer/git/transfer-learning-conv-ai/model_checkpoint')
+        self.openai_enabled: bool = os.getenv('openai.enabled') == 'true'
+
+        if self.openai_enabled:
+            self.conv_ai = ConversationalAiModel(os.getenv('openai_model'))
 
     def handle_query(self, text: str):
-        response = self.conv_ai.process(text)
+        response = ""
+        
+        if self.openai_enabled:
+            response = self.conv_ai.process(text)
+
         emit('message', {'msg': response, 'sender': 'bot'}, broadcast=True)
