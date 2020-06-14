@@ -1,0 +1,22 @@
+:directories:
+  - .git
+  - venv
+  - frontend/dist
+  - frontend/node_modules
+  - frontend/typings
+  - frontend/src/environments
+  - server/__pycache__
+  - server/templates
+  - server/botmgr/__pycache__
+  - server/botmgr/open_ai/__pycache__
+
+:files:
+  - .gitignore
+  - deploy.env
+  - frontend/README.md
+  - frontend/package.json
+  - frontend/package-lock.json
+  - frontend/Makefile
+  - frontend/angular.json
+  - frontend/src/polyfills.ts
+  - frontend/src/styles.css
