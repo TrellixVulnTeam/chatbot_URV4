@@ -36,13 +36,13 @@ export class AppComponent {
       author: this.bot,
       suggestedActions: [{
         type: 'reply',
-        value: 'Neat!'
+        value: 'Hello, I\'m a human.'
       }, {
         type: 'reply',
-        value: 'Thanks, but this is boring.'
+        value: 'I don\'t care.'
       }],
       timestamp: new Date(),
-      text: 'Hello, this is a demo bot. I don`t do much, but I can count symbols!'
+      text: 'Hello, I\'m a chat bot.'
     };
 
     // Merge local and remote messages into a single stream
